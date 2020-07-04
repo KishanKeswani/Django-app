@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Minimal Django File Upload Example</title>
+    </head>
+    
+  <!--   {% load static %} -->
+   <!--  <form method="get" action="1.csv">
+        <button type="submit">Download Operation 1 Output</button> -->
+    <!-- </form> -->
+    <script>
+  ("#downloadbutton").click(function() {
+  //var content = content of file;
+  var dl = document.createElement('a');
+  dl.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(content));
+  dl.setAttribute('download', 'filename.txt');
+  dl.click();
+});
+
+    </script>
+    <div style="float:right;padding-right:50px;">
+<br><br>
+<a href="1.csv"><button>Output of 1st Operation</button></a><br><br><br>
+<a href="2.csv"><button>Output of 2nd Operation</button></a><br><br><br>
+<a href="3.csv"><button>Output of 3rd Operation</button></a>
+</div>
+    <style>
+    .tdStyle
+    {
+    background-image: url("https://images.pexels.com/photos/242236/pexels-photo-242236.jpeg?auto=compress&cs=tinysrgb&h=350");
+    background-repeat:no-repeat;
+    background-size:100%;
+    }
+
+    
+    </style>
+
+    <body class="tdStyle">
+        <ul>
+            <!-- <li>{{document.docfile}} -->
+        </ul>
+        
+
+        <!-- List of uploaded documents -->
+        {% if documents %}
+            <ul>
+                <h3>Uploaded Documents</h3>
+                {% for document in documents %}
+                    <li><a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a></li>
+
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No documents.</p>
+        {% endif %}
+
+        <!-- Upload form. Note enctype attribute! -->
+        <div style="padding-left:42px;>
+        
+        <form action="{% url "list" %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ form.non_field_errors }}</p>
+
+            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+
+            <p>
+                {{ form.docfile.errors }}
+                {{ form.docfile }}
+            </p>
+
+            <p><input type="submit" value="Upload" accept=".xlsx"/></p>
+        </form>
+    </div>
+    </body>
+
+</html>
